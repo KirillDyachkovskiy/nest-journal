@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -23,12 +23,18 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    return this.usersRepository.findOne({
+  async findOne(id: number): Promise<User> {
+    const user: User = await this.usersRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!user) {
+      throw new BadRequestException('Invalid id');
+    }
+
+    return user;
   }
 
   async remove(id: number): Promise<DeleteResult> {
