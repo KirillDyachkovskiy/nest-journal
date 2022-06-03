@@ -9,8 +9,8 @@ export class UserEntity {
   firstName: string;
 
   @Column()
-  lastName: string;
+  email: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column()
+  password: string;
 }
