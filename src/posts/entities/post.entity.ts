@@ -1,9 +1,16 @@
-export class Post {}
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
-export class User {
+export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -14,5 +21,14 @@ export class User {
   body: string;
 
   @Column({ nullable: true })
-  tags: string;
+  tags?: string;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  user: User;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

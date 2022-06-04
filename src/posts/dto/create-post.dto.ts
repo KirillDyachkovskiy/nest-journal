@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -8,5 +8,9 @@ export class CreatePostDto {
   body: string;
 
   @IsString()
+  @ValidateIf((_, value) => value !== undefined)
   tags?: string;
+
+  @IsNumber()
+  userId: number;
 }

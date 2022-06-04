@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -16,7 +16,12 @@ export class PostsService {
   ) {}
 
   create(createPostDto: CreatePostDto) {
-    return this.postsRepository.save(createPostDto);
+    return this.postsRepository.save({
+      ...createPostDto,
+      user: {
+        id: createPostDto.userId,
+      },
+    });
   }
 
   findAll(): Promise<Post[]> {
@@ -31,7 +36,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new BadRequestException('Invalid id');
+      throw new NotFoundException('Post is not found');
     }
 
     return post;

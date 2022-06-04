@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -31,7 +31,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid id');
+      throw new NotFoundException('User is not found');
     }
 
     return user;
