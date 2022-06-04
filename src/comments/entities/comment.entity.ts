@@ -3,33 +3,26 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { User } from '../../users/entities/user.entity';
-import { Comment } from '../../comments/entities/comment.entity';
+import { Post } from '../../posts/entities/post.entity';
 
 @Entity()
-export class Post {
+export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  title: string;
+  text: string;
 
-  @Column()
-  body: string;
-
-  @Column({ nullable: true })
-  tags?: string;
-
-  @ManyToOne(() => User, (user: User) => user.posts)
+  @ManyToOne(() => User, (user: User) => user.comments)
   user: User;
 
-  @OneToMany(() => Comment, (comment: Comment) => comment.user)
-  comments: Comment[];
+  @ManyToOne(() => Post, (post: Post) => post.comments)
+  post: Post;
 
   @CreateDateColumn()
   createdAt: Date;

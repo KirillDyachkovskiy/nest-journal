@@ -15,11 +15,13 @@ export class PostsService {
     private postsRepository: Repository<Post>,
   ) {}
 
-  create(createPostDto: CreatePostDto) {
+  create({ body, title, tags, userId }: CreatePostDto) {
     return this.postsRepository.save({
-      ...createPostDto,
+      body,
+      title,
+      tags,
       user: {
-        id: createPostDto.userId,
+        id: userId,
       },
     });
   }

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Post } from '../../posts/entities/post.entity';
+import { Comment } from '../../comments/entities/comment.entity';
 
 @Entity()
 export class User {
@@ -23,8 +24,11 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post: Post) => post.user)
   posts: Post[];
+
+  @OneToMany(() => Comment, (comment: Comment) => comment.user)
+  comments: Comment[];
 
   @CreateDateColumn()
   createdAt: Date;
